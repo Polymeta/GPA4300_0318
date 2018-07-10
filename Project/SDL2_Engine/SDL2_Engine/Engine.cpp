@@ -6,16 +6,9 @@
 #pragma region project include
 #include "Engine.h"
 #include "MainScene.h"
-#pragma endregion
-
-#pragma region macro
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
-#define LOG_ERROR(TEXT, ERROR)		\
-	std::cout << TEXT;				\
-	std::cout << " Error: ";		\
-	std::cout << ERROR;				\
-	std::cout << std::endl;
+#include "Renderer.h"
+#include "Texture.h"	/// TODO: DELETE
+#include "Rect.h"		/// TODO: DELETE
 #pragma endregion
 
 #pragma region constructor
@@ -75,12 +68,7 @@ bool CEngine::Init()
 		}
 
 		// initialize renderer
-		m_pRenderer = SDL_CreateRenderer(
-			m_pWindow,						// window to get renderer from
-			0,								// index
-			SDL_RENDERER_ACCELERATED |		// flags
-			SDL_RENDERER_PRESENTVSYNC
-		);
+		m_pRenderer = new CRenderer(m_pWindow);
 
 		// if renderer not created
 		if (!m_pRenderer)
@@ -129,8 +117,10 @@ void CEngine::Clean()
 	// delete scene
 	delete m_pScene;
 
+	// delete renderer
+	delete m_pRenderer;
+
 	// free sdl components
-	SDL_DestroyRenderer(m_pRenderer);
 	SDL_FreeSurface(m_pSurface);
 	SDL_DestroyWindow(m_pWindow);
 }
@@ -154,7 +144,7 @@ void CEngine::ChangeScene(CScene * _pScene)
 	m_pScene = _pScene;
 
 	// initialize new scene
-	m_pScene->Init(m_pRenderer);
+	m_pScene->Init(m_pRenderer->GetSDLRenderer());
 }
 #pragma endregion
 
@@ -168,6 +158,19 @@ void CEngine::Update()
 // render every frame
 void CEngine::Render()
 {
+	// clear current screen
+	m_pRenderer->ClearScreen();
 
+	/// <summary>
+	/// TODO: DELETE
+	/// </summary>
+	for (int i = 0; i < 4; i++)
+	{
+		CTexture texture = CTexture("PP.png", m_pRenderer);
+		m_pRenderer->RenderTexture(&texture, SRect(i * 150, i * 50, 640, 360));
+	}
+
+	// present rendered image
+	m_pRenderer->Present();
 }
 #pragma endregion

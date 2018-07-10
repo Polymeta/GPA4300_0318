@@ -3,8 +3,18 @@
 #pragma region forward decleration
 class SDL_Window;
 class SDL_Surface;
-class SDL_Renderer;
+class CRenderer;
 class CScene;
+#pragma endregion
+
+#pragma region macro
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
+#define LOG_ERROR(TEXT, ERROR)		\
+	std::cout << TEXT;				\
+	std::cout << " Error: ";		\
+	std::cout << ERROR;				\
+	std::cout << std::endl;
 #pragma endregion
 
 /// <summary>
@@ -76,7 +86,7 @@ private:
 	/// <summary>
 	/// renderer to render images
 	/// </summary>
-	SDL_Renderer* m_pRenderer;
+	CRenderer* m_pRenderer;
 
 	/// <summary>
 	/// active scene

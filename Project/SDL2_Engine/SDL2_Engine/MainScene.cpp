@@ -6,7 +6,7 @@
 // initialize scene
 void GMainScene::Init(SDL_Renderer* _pRenderer)
 {
-	
+
 }
 
 // cleaning up scene

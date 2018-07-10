@@ -8,6 +8,15 @@
     <ClCompile Include="MainScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>Engine\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Engine\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -25,6 +34,18 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{e6b5a78a-73ad-4de3-ac1b-678ae96f7d9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Helper">
+      <UniqueIdentifier>{25865dc1-adaf-43c9-888e-52b9ea9509ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utility">
+      <UniqueIdentifier>{dac8ac6e-55d1-458a-bde9-dcd232a807dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Renderer">
+      <UniqueIdentifier>{02fc611c-2680-47ae-a366-08ef1c28069c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Texture">
+      <UniqueIdentifier>{a9350118-f0c3-41c3-8b8c-8a548a0b2df2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -35,6 +56,21 @@
     </ClInclude>
     <ClInclude Include="MainScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Engine\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Engine\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
