@@ -1,4 +1,5 @@
 #pragma once
+
 #pragma region project include
 #include "Scene.h"
 #pragma endregion
@@ -13,16 +14,14 @@ public:
 	/// <summary>
 	/// constructor
 	/// </summary>
-	/// <param name="_pEngine">engine reference</param>
-	GMainScene(CEngine* _pEngine) : CScene(_pEngine) {}
+	GMainScene() : CScene() {}
 #pragma endregion
 
 #pragma region public override function
 	/// <summary>
 	/// initialize scene
 	/// </summary>
-	/// <param name="_pRenderer">renderer</param>
-	virtual void Init(SDL_Renderer* _pRenderer) override;
+	virtual void Init() override;
 
 	/// <summary>
 	/// cleaning up scene

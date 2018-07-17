@@ -50,7 +50,8 @@ void CRenderer::RenderTexture(CTexture * _pTexture)
 	RenderTexture(_pTexture, SRect(SCREEN_WIDTH, SCREEN_HEIGHT), rect);
 }
 
-void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect)
+void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SVector2 _mirror,
+	float _angle)
 {
 	// destination rect
 	SRect rect;
@@ -59,21 +60,27 @@ void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect)
 	SDL_QueryTexture(_pTexture->GetSDLTexture(), nullptr, nullptr, &rect.w, &rect.h);
 
 	// render texture
-	RenderTexture(_pTexture, _destRect, rect);
+	RenderTexture(_pTexture, _destRect, rect, _mirror, _angle);
 }
 
-void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SRect _srcRect)
-{
-	// render texture
-	RenderTexture(_pTexture, _destRect, _srcRect, 0.0f);
-}
-
-void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SRect _srcRect, float _angle)
+void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SRect _srcRect, 
+	SVector2 _mirror, float _angle)
 {
 	// create rotation point
 	SDL_Point rotationPoint;
 	rotationPoint.x = _destRect.w / 2;
 	rotationPoint.y = _destRect.h / 2;
+
+	// flip enum
+	SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
+	
+	// flip horizontal if mirror x != 0
+	if (_mirror.X != 0)
+		flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+
+	// flip vertical if mirror y != 0 and x == 0
+	else if (_mirror.X == 0 && _mirror.Y != 0)
+		flip = SDL_RendererFlip::SDL_FLIP_VERTICAL;
 
 	// render texture with angle
 	SDL_RenderCopyEx(
@@ -83,7 +90,7 @@ void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SRect _srcR
 		&_destRect,						// destination rect
 		_angle,							// angle of image
 		&rotationPoint,					// rotation center
-		SDL_RendererFlip::SDL_FLIP_NONE	// flags
+		flip							// flags
 		);
 }
 

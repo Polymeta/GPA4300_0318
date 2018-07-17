@@ -1,5 +1,9 @@
 #pragma once
 
+#pragma region project include
+#include "Vector2.h"
+#pragma endregion
+
 #pragma region forward decleration
 class SRect;
 class CTexture;
@@ -51,24 +55,21 @@ public:
 	/// </summary>
 	/// <param name="_pTexture">texture</param>
 	/// <param name="_destRect">destination rect on screen</param>
-	void RenderTexture(CTexture* _pTexture, SRect _destRect);
-
-	/// <summary>
-	/// render texture
-	/// </summary>
-	/// <param name="_pTexture">texture</param>
-	/// <param name="_destRect">destination rect on screen</param>
-	/// <param name="_srcRect">source rect from image</param>
-	void RenderTexture(CTexture* _pTexture, SRect _destRect, SRect _srcRect);
-
-	/// <summary>
-	/// render texture
-	/// </summary>
-	/// <param name="_pTexture">texture</param>
-	/// <param name="_destRect">destination rect on screen</param>
-	/// <param name="_srcRect">source rect from image</param>
+	/// <param name="_mirror">mirror value</param>
 	/// <param name="_angle">angle of destination rect</param>
-	void RenderTexture(CTexture* _pTexture, SRect _destRect, SRect _srcRect, float _angle);
+	void RenderTexture(CTexture* _pTexture, SRect _destRect, 
+		SVector2 _mirror = SVector2(), float _angle = 0.0f);
+
+	/// <summary>
+	/// render texture
+	/// </summary>
+	/// <param name="_pTexture">texture</param>
+	/// <param name="_destRect">destination rect on screen</param>
+	/// <param name="_srcRect">source rect from image</param>
+	/// <param name="_mirror">mirror value</param>
+	/// <param name="_angle">angle of destination rect</param>
+	void RenderTexture(CTexture* _pTexture, SRect _destRect, SRect _srcRect, 
+		SVector2 _mirror = SVector2(), float _angle = 0.0f);
 
 	/// <summary>
 	/// present rendered image

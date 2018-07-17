@@ -10,14 +10,11 @@
 /// <returns>code of shut down</returns>
 int main(int argc, char* argv[])
 {
-	// create engine
-	CEngine engine;
-
 	// init engine and load images
-	if (engine.Init() && engine.Load())
+	if (CEngine::Get()->Init() && CEngine::Get()->Load())
 	{
 		// run engine
-		engine.Run();
+		CEngine::Get()->Run();
 	}
 
 	// not initialized or loaded
@@ -27,7 +24,7 @@ int main(int argc, char* argv[])
 	}
 
 	// clean engine
-	engine.Clean();
+	CEngine::Get()->Clean();
 
 	// shutdown correctly
 	return 0;

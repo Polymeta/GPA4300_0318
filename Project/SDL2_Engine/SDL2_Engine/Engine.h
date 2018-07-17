@@ -5,6 +5,7 @@ class SDL_Window;
 class SDL_Surface;
 class CRenderer;
 class CScene;
+class CContentManagement;
 #pragma endregion
 
 #pragma region macro
@@ -33,7 +34,34 @@ public:
 	/// destructor
 	/// </summary>
 	~CEngine();
-#pragma ednregion
+#pragma endregion
+
+#pragma region public inline function
+	/// <summary>
+	/// get engine
+	/// </summary>
+	/// <returns>engine</returns>
+	inline static CEngine* Get()
+	{
+		// create engine if not exists
+		static CEngine* pEngine = new CEngine();
+
+		// return engine
+		return pEngine;
+	}
+
+	/// <summary>
+	/// get renderer
+	/// </summary>
+	/// <returns>renderer</returns>
+	inline CRenderer* GetRenderer() { return m_pRenderer; }
+
+	/// <summary>
+	/// get content management system
+	/// </summary>
+	/// <returns></returns>
+	inline CContentManagement* GetCM() { return m_pCM; }
+#pragma endregion
 
 #pragma region public function
 	/// <summary>
@@ -63,6 +91,7 @@ public:
 	/// </summary>
 	/// <param name="_pScene">new scene</param>
 	void ChangeScene(CScene* _pScene);
+#pragma endregion
 
 private:
 #pragma region private primitive variable
@@ -87,6 +116,11 @@ private:
 	/// renderer to render images
 	/// </summary>
 	CRenderer* m_pRenderer;
+
+	/// <summary>
+	/// content management system
+	/// </summary>
+	CContentManagement* m_pCM;
 
 	/// <summary>
 	/// active scene

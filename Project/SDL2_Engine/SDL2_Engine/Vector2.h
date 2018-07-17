@@ -40,5 +40,15 @@ public:
 	{
 		return SVector2(X + _vec2.X, Y + _vec2.Y);
 	}
+
+	/// <summary>
+	/// vector2 * float
+	/// </summary>
+	/// <param name="_value">float value</param>
+	/// <returns>new vector2</returns>
+	SVector2 operator*(float _value)
+	{
+		return SVector2(X * _value, Y * _value);
+	}
 #pragma endregion
 };

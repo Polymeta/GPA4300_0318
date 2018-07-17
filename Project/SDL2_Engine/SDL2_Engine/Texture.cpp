@@ -6,6 +6,7 @@
 #include "Texture.h"
 #include "Renderer.h"
 #include "Helper.h"
+#include "Engine.h"
 #pragma endregion
 
 #pragma region constructor
