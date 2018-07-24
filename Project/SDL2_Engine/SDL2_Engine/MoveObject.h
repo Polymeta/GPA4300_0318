@@ -43,7 +43,8 @@ public:
 	/// <summary>
 	/// update every frame
 	/// </summary>
-	void Update() override;
+	/// <param name="_deltaTime">time since last frame</param>
+	void Update(float _deltaTime) override;
 
 	/// <summary>
 	/// render every frame
@@ -76,14 +77,39 @@ public:
 	/// </summary>
 	/// <param name="_movement">value to set</param>
 	inline void SetMovement(SVector2 _movement) { m_movement = _movement; }
+
+	/// <summary>
+	/// activate gravity
+	/// </summary>
+	inline void ActivateGravity() { m_gravity = true; }
+
+	/// <summary>
+	/// deactivate gravity
+	/// </summary>
+	inline void DeactivateGravity() { m_gravity = false; }
 #pragma endregion
 
 protected:
 #pragma region protected primitive variable
 	/// <summary>
+	/// if gravity is active
+	/// </summary>
+	bool m_gravity;
+
+	/// <summary>
+	/// object is on ground
+	/// </summary>
+	bool m_grounded;
+
+	/// <summary>
 	/// movement speed
 	/// </summary>
 	float m_speed;
+
+	/// <summary>
+	/// fall time
+	/// </summary>
+	float m_fallTime = 0.001f;
 
 	/// <summary>
 	/// direction

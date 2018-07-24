@@ -1,21 +1,16 @@
 #pragma once
 
+#pragma region project include
+#include "Macro.h"
+#pragma endregion
+
 #pragma region forward decleration
 class SDL_Window;
 class SDL_Surface;
 class CRenderer;
 class CScene;
 class CContentManagement;
-#pragma endregion
-
-#pragma region macro
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
-#define LOG_ERROR(TEXT, ERROR)		\
-	std::cout << TEXT;				\
-	std::cout << " Error: ";		\
-	std::cout << ERROR;				\
-	std::cout << std::endl;
+class CTime;
 #pragma endregion
 
 /// <summary>
@@ -61,6 +56,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	inline CContentManagement* GetCM() { return m_pCM; }
+
+	/// <summary>
+	/// get time class
+	/// </summary>
+	/// <returns>time class</returns>
+	inline CTime* GetTime() { return m_pTime; }
 #pragma endregion
 
 #pragma region public function
@@ -126,6 +127,11 @@ private:
 	/// active scene
 	/// </summary>
 	CScene* m_pScene;
+
+	/// <summary>
+	/// time
+	/// </summary>
+	CTime* m_pTime;
 #pragma enregion
 
 #pragma region private function

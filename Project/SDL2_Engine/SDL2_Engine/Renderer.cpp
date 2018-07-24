@@ -40,32 +40,59 @@ void CRenderer::ClearScreen()
 
 void CRenderer::RenderTexture(CTexture * _pTexture)
 {
-	// destination rect
-	SRect rect;
-
-	// get width and height of texture
-	SDL_QueryTexture(_pTexture->GetSDLTexture(), nullptr, nullptr, &rect.w, &rect.h);
-
-	// render texture
-	RenderTexture(_pTexture, SRect(SCREEN_WIDTH, SCREEN_HEIGHT), rect);
-}
-
-void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SVector2 _mirror,
-	float _angle)
-{
-	// destination rect
-	SRect rect;
-
-	// get width and height of texture
-	SDL_QueryTexture(_pTexture->GetSDLTexture(), nullptr, nullptr, &rect.w, &rect.h);
-
-	// render texture
-	RenderTexture(_pTexture, _destRect, rect, _mirror, _angle);
+	RenderTexture(_pTexture, SRect(), SRect());
 }
 
 void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SRect _srcRect, 
-	SVector2 _mirror, float _angle)
+	SVector2 _mirror, float _angle, bool _inWorld)
 {
+	// source rect
+	SRect srcRect = _srcRect;
+
+	// if source rect has no width or height
+	if (_srcRect.w == 0 || _srcRect.h == 0)
+	{
+		// get width and height of texture
+		SDL_QueryTexture(_pTexture->GetSDLTexture(), nullptr, nullptr, &srcRect.w, &srcRect.h);
+	}
+
+	// destination rect
+	SRect destRect = _destRect;
+
+	// if destination rect has no width or height
+	if (destRect.w == 0 || destRect.h == 0)
+	{
+		destRect.w = SCREEN_WIDTH;
+		destRect.h = SCREEN_HEIGHT;
+	}
+
+	// if texture is rendered in world and is not in screen return
+	if (_inWorld &&
+		(destRect.x >= m_camera.X + SCREEN_WIDTH / 2 + WORLD_BLOCK_WIDTH ||
+		destRect.x <= m_camera.X - SCREEN_WIDTH / 2 - WORLD_BLOCK_WIDTH ||
+		destRect.y >= m_camera.Y + SCREEN_HEIGHT / 2 + WORLD_BLOCK_HEIGHT ||
+		destRect.y <= m_camera.Y - SCREEN_HEIGHT / 2 - WORLD_BLOCK_HEIGHT))
+	{
+		return;
+	}
+
+	// if texture is not in world and not in screen return
+	if (!_inWorld &&
+		(destRect.x >= SCREEN_WIDTH || destRect.x <= 0 ||
+			destRect.y >= SCREEN_HEIGHT || destRect.y <= 0)
+		)
+	{
+		return;
+	}
+
+	// if texture is rendered in world
+	if (_inWorld)
+	{
+		// add camera offset to destination rect
+		destRect.x -= m_camera.X - SCREEN_WIDTH / 2;
+		destRect.y -= m_camera.Y - SCREEN_HEIGHT / 2;
+	}
+
 	// create rotation point
 	SDL_Point rotationPoint;
 	rotationPoint.x = _destRect.w / 2;
@@ -86,8 +113,8 @@ void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SRect _srcR
 	SDL_RenderCopyEx(
 		m_pRenderer,					// sdl renderer
 		_pTexture->GetSDLTexture(),		// sdl texture
-		&_srcRect,						// source rect
-		&_destRect,						// destination rect
+		&srcRect,						// source rect
+		&destRect,						// destination rect
 		_angle,							// angle of image
 		&rotationPoint,					// rotation center
 		flip							// flags

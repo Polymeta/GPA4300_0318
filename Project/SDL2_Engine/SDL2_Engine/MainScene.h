@@ -4,6 +4,10 @@
 #include "Scene.h"
 #pragma endregion
 
+#pragma region forward decleration
+class GWorld;
+#pragma endregion
+
 /// <summary>
 /// main game scene class
 /// </summary>
@@ -28,4 +32,13 @@ public:
 	/// </summary>
 	virtual void Clean() override;
 #pragma endregion
+
+private:
+#pragma region private variable
+	/// <summary>
+	/// world
+	/// </summary>
+	GWorld* m_pWorld;
+#pragma endregion
+
 };

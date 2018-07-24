@@ -51,7 +51,8 @@ public:
 	/// <summary>
 	/// update every frame
 	/// </summary>
-	virtual void Update() = 0;
+	/// <param name="_deltaTime">time since last frame</param>
+	virtual void Update(float _deltaTime) = 0;
 
 	/// <summary>
 	/// render every frame

@@ -44,12 +44,26 @@ public:
 	/// <summary>
 	/// update every frame
 	/// </summary>
-	void Update() override;
+	/// <param name="_deltaTime">time since last frame</param>
+	void Update(float _deltaTime) override;
 
 	/// <summary>
 	/// render every frame
 	/// </summary>
 	/// <param name="_pRenderer"></param>
 	void Render(CRenderer* _pRenderer) override;
+#pragma endregion
+
+private:
+#pragma region private primitive variable
+	/// <summary>
+	/// is jump active
+	/// </summary>
+	bool m_jump;
+
+	/// <summary>
+	/// time till jump ends
+	/// </summary>
+	float m_jumpTime;
 #pragma endregion
 };

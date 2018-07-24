@@ -2,6 +2,7 @@
 #pragma region project include
 #include "Object.h"
 #include "Rect.h"
+#include "Enum.h"
 #pragma endregion
 
 #pragma region forward decleration
@@ -61,7 +62,8 @@ public:
 	/// <summary>
 	/// update every frame
 	/// </summary>
-	virtual void Update() override;
+	/// <param name="_deltaTime">time since last frame</param>
+	virtual void Update(float _deltaTime) override;
 
 	/// <summary>
 	/// render every frame
@@ -71,6 +73,24 @@ public:
 #pragma endregion
 
 #pragma region public inline function
+	/// <summary>
+	/// set object rendered in world
+	/// </summary>
+	/// <param name="_inWorld">in world or not</param>
+	inline void SetInWorld(bool _inWorld) { m_inWorld = _inWorld; }
+
+	/// <summary>
+	/// get collision type of object
+	/// </summary>
+	/// <returns>collision type</returns>
+	inline ECollisionType GetColType() { return m_colType; }
+
+	/// <summary>
+	/// set collision type of object
+	/// </summary>
+	/// <param name="_colType">collision type</param>
+	void SetColType(ECollisionType _colType) { m_colType = _colType; }
+
 	/// <summary>
 	/// get rect
 	/// </summary>
@@ -82,6 +102,30 @@ public:
 	/// </summary>
 	/// <param name="_rect">rect to set</param>
 	inline void SetRect(SRect _rect) { m_rect = _rect; }
+	
+	/// <summary>
+	/// get source rect
+	/// </summary>
+	/// <returns>source rect of object</returns>
+	inline SRect GetSrcRect() { return m_srcRect; }
+
+	/// <summary>
+	/// set source rect
+	/// </summary>
+	/// <param name="_rect">rect to set</param>
+	inline void SetSrcRect(SRect _rect) { m_srcRect = _rect; }
+
+	/// <summary>
+	/// get mirror
+	/// </summary>
+	/// <returns>mirror value of object</returns>
+	inline SVector2 GetMirror() { return m_mirror; }
+	
+	/// /// <summary>
+	/// set mirror
+	/// </summary>
+	/// <param name="_mirror">value to set</param>
+	inline void SetMirror(SVector2 _mirror) { m_mirror = _mirror; }
 
 	/// <summary>
 	/// get texture
@@ -91,11 +135,28 @@ public:
 #pragma endregion
 
 protected:
+#pragma region protected primitive variable
+	/// <summary>
+	/// if object is rendered in screen or world space
+	/// </summary>
+	bool m_inWorld = true;
+
+	/// <summary>
+	/// collision type
+	/// </summary>
+	ECollisionType m_colType;
+#pragma endregion
+
 #pragma region protected variable
 	/// <summary>
 	/// rect of texture
 	/// </summary>
 	SRect m_rect;
+
+	/// <summary>
+	/// source rect of texture
+	/// </summary>
+	SRect m_srcRect;
 
 	/// <summary>
 	/// mirror vector2

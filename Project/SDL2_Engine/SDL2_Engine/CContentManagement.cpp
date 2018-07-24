@@ -23,19 +23,19 @@ CContentManagement::~CContentManagement()
 
 #pragma region public function
 // update every frame
-void CContentManagement::Update()
+void CContentManagement::Update(float _deltaTime)
 {
 	// update every scene object
 	for each (CObject* pObj in m_pSceneObjects)
-		pObj->Update();
+		pObj->Update(_deltaTime);
 
 	// update every persistant object
 	for (CObject* pObj : m_pPersistantObjects)
-		pObj->Update();
+		pObj->Update(_deltaTime);
 
 	// update every ui object
 	for (CObject* pObj : m_pUIObjects)
-		pObj->Update();
+		pObj->Update(_deltaTime);
 
 	// remove object in remove list
 	while (m_pRemoveObjects.size() > 0)

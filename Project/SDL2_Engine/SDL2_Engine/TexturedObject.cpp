@@ -24,13 +24,14 @@ CTexturedObject::CTexturedObject(SVector2 _pos, SVector2 _size, CRenderer * _pRe
 CTexturedObject::~CTexturedObject()
 {
 	// delete texture
-	delete m_pTexture;
+	if(m_pTexture)
+		delete m_pTexture;
 }
 #pragma endregion
 
 #pragma region public override function
 // update every frame
-void CTexturedObject::Update()
+void CTexturedObject::Update(float _deltaTime)
 {
 	// set position of rect
 	m_rect.x = m_position.X;
@@ -41,6 +42,6 @@ void CTexturedObject::Update()
 void CTexturedObject::Render(CRenderer * _pRenderer)
 {
 	// render texture
-	_pRenderer->RenderTexture(m_pTexture, m_rect, m_mirror, m_angle);
+	_pRenderer->RenderTexture(m_pTexture, m_rect, m_srcRect, m_mirror, m_angle);
 }
 #pragma endregion

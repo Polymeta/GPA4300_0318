@@ -1,6 +1,6 @@
 #pragma region project include
 #include "MainScene.h"
-#include "Player.h"
+#include "World.h"
 #include "ContentManagement.h"
 #pragma endregion
 
@@ -8,19 +8,15 @@
 // initialize scene
 void GMainScene::Init()
 {
-	// create textured object
-	GPlayer* pObj = new GPlayer(SVector2(100, 45), SVector2(68, 92),
-		CEngine::Get()->GetRenderer(), "Texture/Character/Player/T_Samus_Idle.png");
-
-	pObj->SetSpeed(1.0f);
-
-	// add object to cm
-	CEngine::Get()->GetCM()->AddPersistantObject(pObj);
+	// create world
+	m_pWorld = new GWorld(CEngine::Get()->GetRenderer(), "Texture/World/T_WorldSide.png");
+	m_pWorld->Init();
 }
 
 // cleaning up scene
 void GMainScene::Clean()
 {
-
+	// delete world
+	delete m_pWorld;
 }
 #pragma endregion

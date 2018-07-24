@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "Scene.h"
 #include "Input.h"
+#include "Time.h"
 #pragma endregion
 
 #pragma region constructor
@@ -92,6 +93,18 @@ bool CEngine::Init()
 			return false;
 		}
 
+		// create time
+		m_pTime = new CTime();
+
+		// if time not created
+		if (!m_pTime)
+		{
+			// error message
+			LOG_ERROR("Time could not be created!", SDL_GetError());
+
+			return false;
+		}
+
 		// engine is running
 		m_isRunning = true;
 
@@ -130,6 +143,9 @@ void CEngine::Clean()
 	// delete scene
 	delete m_pScene;
 
+	// delete time
+	delete m_pTime;
+
 	// delete renderer
 	delete m_pRenderer;
 
@@ -165,6 +181,9 @@ void CEngine::ChangeScene(CScene * _pScene)
 // update every frame
 void CEngine::Update()
 {
+	// update time
+	m_pTime->Update();
+
 	// refresh input state
 	CInput::RefreshState();
 
@@ -184,7 +203,7 @@ void CEngine::Update()
 	}
 
 	// update content
-	m_pCM->Update();
+	m_pCM->Update(m_pTime->GetDeltaTime());
 }
 
 // render every frame

@@ -39,23 +39,42 @@ public:
 	inline void AddSceneObject(CObject* _pObject) { AddObject(_pObject, m_pSceneObjects); }
 
 	/// <summary>
+	/// get scene objects list
+	/// </summary>
+	/// <returns>list of all scene object</returns>
+	inline list<CObject*> GetSceneObjects() { return m_pSceneObjects; }
+
+	/// <summary>
 	/// add object to persitant list
 	/// </summary>
 	/// <param name="_pObject">object to add</param>
 	inline void AddPersistantObject(CObject* _pObject) { AddObject(_pObject, m_pPersistantObjects); }
 
 	/// <summary>
+	/// get persistant objects list
+	/// </summary>
+	/// <returns>list of all persistant object</returns>
+	inline list<CObject*> GetPersistantObjects() { return m_pPersistantObjects; }
+
+	/// <summary>
 	/// add object to ui list
 	/// </summary>
 	/// <param name="_pObject">object to add</param>
 	inline void AddUIObject(CObject* _pObject) { AddObject(_pObject, m_pUIObjects); }
+
+	/// <summary>
+	/// get ui objects list
+	/// </summary>
+	/// <returns>list of all ui object</returns>
+	inline list<CObject*> GetUIObjects() { return m_pUIObjects; }
 #pragma endregion
 
 #pragma region public function
 	/// <summary>
 	/// update every frame
 	/// </summary>
-	void Update();
+	/// <param name="_deltaTime">time since last frame</param>
+	void Update(float _deltaTime);
 
 	/// <summary>
 	/// render every frame
