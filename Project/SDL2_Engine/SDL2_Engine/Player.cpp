@@ -6,8 +6,11 @@
 #include "Input.h"
 #include "Engine.h"
 #include "ContentManagement.h"
+#include "TextureManagement.h"
+#include "Texture.h"
 #include "Physic.h"
 #include "Renderer.h"
+#include "Bullet.h"
 #include "Time.h"	///TODO: DELETE
 #pragma endregion
 
@@ -18,17 +21,19 @@ void GPlayer::Update(float _deltaTime)
 	// movement left
 	if (CInput::GetKey(SDL_SCANCODE_A))
 	{
-		// set movement and mirror
+		// set movement, forward and mirror
 		m_movement.X = -1.0f;
 		m_mirror.X = 1.0f;
+		m_forward.X = -1.0f;
 	}
 
 	// movement right
 	else if (CInput::GetKey(SDL_SCANCODE_D))
 	{
-		// set movemenet and mirror
+		// set movemenet, forward and mirror
 		m_movement.X = 1.0f;
 		m_mirror.X = 0.0f;
+		m_forward.X = 1.0f;
 	}
 
 	// no movement left or right
@@ -42,6 +47,39 @@ void GPlayer::Update(float _deltaTime)
 		m_jump = true;
 		m_jumpTime = PLAYER_JUMP_TIME;
 		m_gravity = false;
+	}
+
+	// if key enter is pressed this frame spawn bullet
+	if (CInput::GetKeyDown(SDL_SCANCODE_RETURN))
+	{
+		// spawn bullet
+		GBullet* pBullet = new GBullet(m_position, m_forward);
+		pBullet->AddPosition(SVector2(m_forward.X * PLAYER_WIDTH + 1, 48.0f));
+
+		// set texture name of object
+		pBullet->SetTextureName("Bullet");
+
+		// if texture not exists
+		if (CEngine::Get()->GetTM()->GetTexture("Bullet") == nullptr)
+		{
+			// create new texture
+			CTexture* pTexture = new CTexture("Texture/Bullet/T_Bullet.png", CEngine::Get()->GetRenderer());
+
+			// add texture to tm
+			CEngine::Get()->GetTM()->AddTexture("Bullet", pTexture);
+
+			// set texture of object
+			pBullet->SetTexture(pTexture);
+		}
+
+		// if texture exists set texture of object
+		else
+		{
+			pBullet->SetTexture(CEngine::Get()->GetTM()->GetTexture("Bullet"));
+		}
+
+		// add to list
+		CEngine::Get()->GetCM()->AddPersistantObject(pBullet);
 	}
 
 	// update parent
@@ -73,8 +111,8 @@ void GPlayer::Update(float _deltaTime)
 		nextRect.x = nextPos.X;
 		nextRect.y = nextPos.Y;
 
-		// through all scene objects
-		for (CObject* pObj : CEngine::Get()->GetCM()->GetSceneObjects())
+		// through all collision objects
+		for (CObject* pObj : m_pCollisionObjects)
 		{
 			// if current object is self continue
 			if ((CMoveObject*)pObj && pObj == this)
@@ -90,29 +128,6 @@ void GPlayer::Update(float _deltaTime)
 			// if not moveable cancel collision check
 			if (!moveable)
 				break;
-		}
-
-		// if moveable
-		if (moveable)
-		{
-			// through all persistant objects
-			for (CObject* pObj : CEngine::Get()->GetCM()->GetPersistantObjects())
-			{
-				// if current object is self continue
-				if ((CMoveObject*)pObj && pObj == this)
-					continue;
-
-				// if collision type none
-				if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
-					continue;
-
-				// set moveable by checking collision
-				moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
-
-				// if not moveable cancel collision check
-				if (!moveable)
-					break;
-			}
 		}
 
 		// if still moveable set y position

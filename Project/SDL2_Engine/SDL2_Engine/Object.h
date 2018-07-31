@@ -45,6 +45,18 @@ public:
 	/// </summary>
 	/// <param name="_pos">position to add</param>
 	inline void AddPosition(SVector2 _pos) { m_position = m_position + _pos; }
+
+	/// <summary>
+	/// get tag of object
+	/// </summary>
+	/// <returns>tag</returns>
+	inline const char* GetTag() { return m_pTag; }
+
+	/// <summary>
+	/// set tag of object
+	/// </summary>
+	/// <param name="_pTag">tag to set</param>
+	inline void SetTag(const char* _pTag) { m_pTag = _pTag; }
 #pragma endregion
 
 #pragma region public function
@@ -72,5 +84,10 @@ protected:
 	/// angle of object
 	/// </summary>
 	float m_angle;
+
+	/// <summary>
+	/// tag of object
+	/// </summary>
+	const char* m_pTag;
 #pragma endregion
 };
