@@ -7,6 +7,7 @@
 #include "Engine.h"
 #include "Renderer.h"
 #include "ContentManagement.h"
+#include "TextureManagement.h"
 #include "Game.h"
 #include "Scene.h"
 #include "Input.h"
@@ -88,7 +89,19 @@ bool CEngine::Init()
 		if (!m_pCM)
 		{
 			// error message
-			LOG_ERROR("Content Management System could not be created!", SDL_GetError());
+			LOG_ERROR("Content Management System could not be created!", "");
+
+			return false;
+		}
+
+		// create texture management system
+		m_pTM = new CTextureManagement();
+
+		// if texture management system not created
+		if (!m_pTM)
+		{
+			// error message
+			LOG_ERROR("Texture Management System could not be created!", "");
 
 			return false;
 		}
@@ -100,7 +113,7 @@ bool CEngine::Init()
 		if (!m_pTime)
 		{
 			// error message
-			LOG_ERROR("Time could not be created!", SDL_GetError());
+			LOG_ERROR("Time could not be created!", "");
 
 			return false;
 		}
@@ -145,6 +158,12 @@ void CEngine::Clean()
 
 	// delete time
 	delete m_pTime;
+
+	// delete content management
+	delete m_pCM;
+
+	// delete texture management
+	delete m_pTM;
 
 	// delete renderer
 	delete m_pRenderer;

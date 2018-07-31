@@ -36,6 +36,12 @@ public:
 	/// </summary>
 	/// <returns>sdl renderer</returns>
 	inline SDL_Renderer* GetSDLRenderer() { return m_pRenderer; }
+	
+	/// <summary>
+	/// get camera position
+	/// </summary>
+	/// <returns>camera position</returns>
+	inline SVector2 GetCamera() { return m_camera; }
 
 	/// <summary>
 	/// set position of camera

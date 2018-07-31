@@ -13,7 +13,14 @@
 #define WORLD_BLOCK_ATLAS_HEIGHT 26
 #define WORLD_BLOCK_WIDTH 48
 #define WORLD_BLOCK_HEIGHT 48
+#define MOVE_ENEMY_WIDTH 32
+#define MOVE_ENEMY_HEIGHT 32
+#define MOVE_ENEMY_SPEED 125.0f
+#define BULLET_SIZE 16.0f
+#define BULLET_SPEED 1000.0f
 #define GRAVITY_VALUE 9.81f
+#define COLLISION_DISTANCE 640.0f
+#define COLLISION_CHECK_TIMER 1.0f
 #pragma endregion
 
 #pragma region function macro
