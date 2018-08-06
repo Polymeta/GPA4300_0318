@@ -11,6 +11,7 @@
 #include "Physic.h"
 #include "Renderer.h"
 #include "Bullet.h"
+#include "MenuScene.h"
 #include "Time.h"	///TODO: DELETE
 #pragma endregion
 
@@ -142,6 +143,17 @@ void GPlayer::Update(float _deltaTime)
 	CEngine::Get()->GetRenderer()->SetCamera(
 		SVector2(m_position.X + PLAYER_WIDTH / 2, m_position.Y + PLAYER_HEIGHT / 2)
 	);
+
+	// collide with object
+	if (m_pCollideObject)
+	{
+		// if collide object is enemy
+		if (m_pCollideObject->GetTag() == ENEMY_TAG)
+		{
+			// back to main menu
+			CEngine::Get()->ChangeScene(new GMenuScene());
+		}
+	}
 
 	/// <summary>
 	/// TODO: DELETE

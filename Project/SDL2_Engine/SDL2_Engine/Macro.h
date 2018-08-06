@@ -21,6 +21,8 @@
 #define GRAVITY_VALUE 9.81f
 #define COLLISION_DISTANCE 640.0f
 #define COLLISION_CHECK_TIMER 1.0f
+#define BULLET_TAG "Bullet"
+#define ENEMY_TAG "Enemy"
 #pragma endregion
 
 #pragma region function macro

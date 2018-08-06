@@ -47,6 +47,12 @@
     <ClCompile Include="MoveEnemy.cpp">
       <Filter>Game\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="MenuPlayer.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -108,6 +114,15 @@
     </Filter>
     <Filter Include="Game\Bullet">
       <UniqueIdentifier>{70585f1a-3a15-4d97-8a1f-6c7d31bd0893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Font">
+      <UniqueIdentifier>{1ba4fc99-a551-4548-87d2-cdd7a775cca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Text">
+      <UniqueIdentifier>{06868012-a469-489d-9af3-a2093cd025df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Text">
+      <UniqueIdentifier>{09807909-5471-4bd1-93f4-5db09c44d9c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +194,24 @@
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Game\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Engine\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Engine\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="TextFPS.h">
+      <Filter>Game\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuPlayer.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

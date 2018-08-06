@@ -1,7 +1,9 @@
 #pragma region project include
 #include "MainScene.h"
+#include "Game.h"
 #include "World.h"
 #include "ContentManagement.h"
+#include "TextFPS.h"
 #pragma endregion
 
 #pragma region public override function
@@ -11,6 +13,12 @@ void GMainScene::Init()
 	// create world
 	m_pWorld = new GWorld();
 	m_pWorld->Init();
+
+	// create fps text
+	GTextFPS* pText = new GTextFPS("FPS: 0", GGame::Get()->m_PArialFont, SRect(SCREEN_WIDTH / 2 - 50, 0, 100, 50));
+
+	// add fps text to list
+	CEngine::Get()->GetCM()->AddUIObject(pText);
 }
 
 // cleaning up scene
@@ -18,5 +26,10 @@ void GMainScene::Clean()
 {
 	// delete world
 	delete m_pWorld;
+
+	// clean all objects
+	CEngine::Get()->GetCM()->CleanScene();
+	CEngine::Get()->GetCM()->CleanUI();
+	CEngine::Get()->GetCM()->CleanPersistantObjects();
 }
 #pragma endregion
