@@ -1,6 +1,7 @@
 #pragma region system include
 #include <iostream>
 #include <SDL.h>
+#include <SDL_ttf.h>
 #pragma endregion
 
 #pragma region project include
@@ -82,6 +83,15 @@ bool CEngine::Init()
 			return false;
 		}
 
+		// initialize font
+		if (TTF_Init() < 0)
+		{
+			// error message
+			LOG_ERROR("Renderer could not be created!", SDL_GetError());
+
+			return false;
+		}
+
 		// create content management system
 		m_pCM = new CContentManagement();
 
@@ -155,6 +165,9 @@ void CEngine::Clean()
 
 	// delete scene
 	delete m_pScene;
+
+	// delete game
+	delete GGame::Get();
 
 	// delete time
 	delete m_pTime;

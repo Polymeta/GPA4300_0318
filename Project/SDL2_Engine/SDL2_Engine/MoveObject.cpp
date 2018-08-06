@@ -56,14 +56,9 @@ void CMoveObject::Update(float _deltaTime)
 		// set moveable by checking collision
 		moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
 
-		// TODO: CHANGE
+		// if collision set collide object
 		if (!moveable)
-		{
-			if (m_pTag == "Bullet")
-			{
-				CEngine::Get()->GetCM()->RemoveObject(this);
-			}
-		}
+			m_pCollideObject = pObj;
 
 		// if not moveable cancel collision check
 		if (!moveable)
@@ -73,6 +68,9 @@ void CMoveObject::Update(float _deltaTime)
 	// if moveable
 	if (moveable)
 	{
+		// reset collide object
+		m_pCollideObject = nullptr;
+
 		// add position by movement * speed
 		m_position = nextPos;
 

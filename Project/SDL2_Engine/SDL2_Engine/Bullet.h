@@ -24,7 +24,7 @@ public:
 		m_colType = ECollisionType::MOVE;
 		m_rect.w = BULLET_SIZE;
 		m_rect.h = BULLET_SIZE;
-		m_pTag = "Bullet";
+		m_pTag = BULLET_TAG;
 	}
 
 	/// <summary>
@@ -41,6 +41,20 @@ public:
 	void Update(float _deltaTime) override
 	{
 		CMoveObject::Update(_deltaTime);
+
+		// collide with object
+		if (m_pCollideObject)
+		{
+			// remove bullet
+			CEngine::Get()->GetCM()->RemoveObject(this);
+
+			// if collide object is enemy
+			if (m_pCollideObject->GetTag() == ENEMY_TAG)
+			{
+				// remove enemy
+				CEngine::Get()->GetCM()->RemoveObject(m_pCollideObject);
+			}
+		}
 	}
 
 	/// <summary>
