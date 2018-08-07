@@ -53,6 +53,9 @@
     <ClCompile Include="MenuScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -123,6 +126,12 @@
     </Filter>
     <Filter Include="Game\Text">
       <UniqueIdentifier>{09807909-5471-4bd1-93f4-5db09c44d9c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Audio">
+      <UniqueIdentifier>{1fb9c9d0-b887-4f7d-a142-d807a9d230b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Animation">
+      <UniqueIdentifier>{fc154721-bb0f-45e1-b741-3a8b433a059b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +221,15 @@
     </ClInclude>
     <ClInclude Include="MenuScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Music.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Engine\Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

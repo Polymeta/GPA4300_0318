@@ -57,6 +57,18 @@ public:
 	/// </summary>
 	/// <param name="_pTag">tag to set</param>
 	inline void SetTag(const char* _pTag) { m_pTag = _pTag; }
+
+	/// <summary>
+	/// get layer
+	/// </summary>
+	/// <returns></returns>
+	inline int GetLayer() { return m_layer; }
+
+	/// <summary>
+	/// set layer
+	/// </summary>
+	/// <param name="_layer">layer to set</param>
+	inline void SetLayer(int _layer) { m_layer = _layer; }
 #pragma endregion
 
 #pragma region public function
@@ -89,5 +101,10 @@ protected:
 	/// tag of object
 	/// </summary>
 	const char* m_pTag;
+
+	/// <summary>
+	/// layer to render
+	/// </summary>
+	int m_layer;
 #pragma endregion
 };

@@ -25,6 +25,7 @@ public:
 		m_rect.w = BULLET_SIZE;
 		m_rect.h = BULLET_SIZE;
 		m_pTag = BULLET_TAG;
+		m_layer = 2;
 	}
 
 	/// <summary>

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #pragma endregion
 
 #pragma region project include
@@ -87,7 +88,16 @@ bool CEngine::Init()
 		if (TTF_Init() < 0)
 		{
 			// error message
-			LOG_ERROR("Renderer could not be created!", SDL_GetError());
+			LOG_ERROR("Fonts could not be created!", SDL_GetError());
+
+			return false;
+		}
+
+		// initialize audio
+		if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
+		{
+			// error message
+			LOG_ERROR("Audio could not be created!", SDL_GetError());
 
 			return false;
 		}
