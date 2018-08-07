@@ -11,6 +11,8 @@
 #include "Texture.h"
 #include "Player.h"
 #include "MoveEnemy.h"
+#include "Sound.h"
+#include "Helper.h"
 #pragma endregion
 
 #pragma region using
@@ -169,7 +171,7 @@ void GWorld::Init()
 			if (CEngine::Get()->GetTM()->GetTexture(texName) == nullptr)
 			{
 				// create new texture
-				CTexture* pTexture = new CTexture("Texture/Character/Player/T_Samus_Idle.png", CEngine::Get()->GetRenderer());
+				CTexture* pTexture = new CTexture("Texture/Character/Player/T_Samus.png", CEngine::Get()->GetRenderer());
 
 				// add texture to tm
 				CEngine::Get()->GetTM()->AddTexture(texName, pTexture);
@@ -178,6 +180,15 @@ void GWorld::Init()
 				pPlayer->SetTexture(pTexture);
 
 				SDL_Delay(500);
+
+				// initialize player
+				pPlayer->Init();
+
+				// create shot sound
+				CSound* pSound = new CSound(GetAssetPath("Audio/S_Shot.wav", 4).c_str());
+
+				// set shot sound of player
+				pPlayer->SetShotSound(pSound);
 			}
 
 			// if texture exists set texture of object
@@ -229,8 +240,10 @@ void GWorld::Init()
 				pEnemy->SetTexture(CEngine::Get()->GetTM()->GetTexture(texName));
 			}
 
+			pEnemy->SetLayer(1);
+
 			// add player to persistant list
-			CEngine::Get()->GetCM()->AddPersistantObject(pEnemy);
+			CEngine::Get()->GetCM()->AddSceneObject(pEnemy);
 
 			break;
 		}

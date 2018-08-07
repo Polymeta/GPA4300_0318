@@ -4,6 +4,8 @@
 #include "World.h"
 #include "ContentManagement.h"
 #include "TextFPS.h"
+#include "Helper.h"
+#include "Music.h"
 #pragma endregion
 
 #pragma region public override function
@@ -19,6 +21,12 @@ void GMainScene::Init()
 
 	// add fps text to list
 	CEngine::Get()->GetCM()->AddUIObject(pText);
+
+	// create background music
+	m_pBackgroundMusic = new CMusic(GetAssetPath("Audio/S_Background.wav", 4).c_str());
+
+	// play music
+	m_pBackgroundMusic->Play(true);
 }
 
 // cleaning up scene
@@ -26,6 +34,9 @@ void GMainScene::Clean()
 {
 	// delete world
 	delete m_pWorld;
+
+	// delete music
+	delete m_pBackgroundMusic;
 
 	// clean all objects
 	CEngine::Get()->GetCM()->CleanScene();

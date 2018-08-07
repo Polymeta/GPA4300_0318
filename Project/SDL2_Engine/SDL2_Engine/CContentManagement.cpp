@@ -127,9 +127,27 @@ void CContentManagement::CleanPersistantObjects()
 
 void CContentManagement::SortList(list<CObject*>& _pList)
 {
+	// new sorted list
+	list<CObject*> newList;
 
+	// go through layer count
+	for (int i = 0; i < LAYER_COUNT; i++)
+	{
+		// through all objects in list
+		for (CObject* pObj : _pList)
+		{
+			// if object has same layer as index
+			if (pObj->GetLayer() == i)
+			{
+				// add object to new list
+				newList.push_back(pObj);
+			}
+		}
+	}
+
+	// set old list to sorted list
+	_pList = newList;
 }
-
 #pragma endregion
 
 #pragma region private function
