@@ -1,5 +1,6 @@
 #pragma region project include
 #include "Engine.h"
+#include "Config.h"
 #pragma endregion
 
 /// <summary>
@@ -10,6 +11,9 @@
 /// <returns>code of shut down</returns>
 int main(int argc, char* argv[])
 {
+	// load config
+	GConfig::SetValues();
+
 	// init engine and load images
 	if (CEngine::Get()->Init() && CEngine::Get()->Load())
 	{

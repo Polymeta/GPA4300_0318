@@ -6,6 +6,7 @@
 #include "TextFPS.h"
 #include "Helper.h"
 #include "Music.h"
+#include "Config.h"
 #pragma endregion
 
 #pragma region public override function
@@ -14,10 +15,10 @@ void GMainScene::Init()
 {
 	// create world
 	m_pWorld = new GWorld();
-	m_pWorld->Init();
+	m_pWorld->Init(GetAssetPath("Texture/World/T_Level01.bmp", 4).c_str());
 
 	// create fps text
-	GTextFPS* pText = new GTextFPS("FPS: 0", GGame::Get()->m_PArialFont, SRect(SCREEN_WIDTH / 2 - 50, 0, 100, 50));
+	GTextFPS* pText = new GTextFPS("FPS: 0", GGame::Get()->m_PArialFont, SRect(GConfig::s_ScreenWidth / 2 - 50, 0, 100, 50));
 
 	// add fps text to list
 	CEngine::Get()->GetCM()->AddUIObject(pText);

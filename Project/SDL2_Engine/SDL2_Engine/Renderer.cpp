@@ -8,6 +8,7 @@
 #include "Rect.h"
 #include "Texture.h"
 #include "Engine.h"
+#include "Config.h"
 #pragma endregion
 
 #pragma region constructor
@@ -62,24 +63,24 @@ void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SRect _srcR
 	// if destination rect has no width or height
 	if (destRect.w == 0 || destRect.h == 0)
 	{
-		destRect.w = SCREEN_WIDTH;
-		destRect.h = SCREEN_HEIGHT;
+		destRect.w = GConfig::s_ScreenWidth;
+		destRect.h = GConfig::s_ScreenHeight;
 	}
 
 	// if texture is rendered in world and is not in screen return
 	if (_inWorld &&
-		(destRect.x >= m_camera.X + SCREEN_WIDTH / 2 + WORLD_BLOCK_WIDTH ||
-		destRect.x <= m_camera.X - SCREEN_WIDTH / 2 - WORLD_BLOCK_WIDTH ||
-		destRect.y >= m_camera.Y + SCREEN_HEIGHT / 2 + WORLD_BLOCK_HEIGHT ||
-		destRect.y <= m_camera.Y - SCREEN_HEIGHT / 2 - WORLD_BLOCK_HEIGHT))
+		(destRect.x >= m_camera.X + GConfig::s_ScreenWidth / 2 + WORLD_BLOCK_WIDTH ||
+		destRect.x <= m_camera.X - GConfig::s_ScreenWidth / 2 - WORLD_BLOCK_WIDTH ||
+		destRect.y >= m_camera.Y + GConfig::s_ScreenHeight / 2 + WORLD_BLOCK_HEIGHT ||
+		destRect.y <= m_camera.Y - GConfig::s_ScreenHeight / 2 - WORLD_BLOCK_HEIGHT))
 	{
 		return;
 	}
 
 	// if texture is not in world and not in screen return
 	if (!_inWorld &&
-		(destRect.x >= SCREEN_WIDTH || destRect.x <= 0 ||
-			destRect.y >= SCREEN_HEIGHT || destRect.y <= 0)
+		(destRect.x >= GConfig::s_ScreenWidth || destRect.x <= 0 ||
+			destRect.y >= GConfig::s_ScreenHeight || destRect.y <= 0)
 		)
 	{
 		return;
@@ -89,8 +90,8 @@ void CRenderer::RenderTexture(CTexture * _pTexture, SRect _destRect, SRect _srcR
 	if (_inWorld)
 	{
 		// add camera offset to destination rect
-		destRect.x -= m_camera.X - SCREEN_WIDTH / 2;
-		destRect.y -= m_camera.Y - SCREEN_HEIGHT / 2;
+		destRect.x -= m_camera.X - GConfig::s_ScreenWidth / 2;
+		destRect.y -= m_camera.Y - GConfig::s_ScreenHeight / 2;
 	}
 
 	// create rotation point

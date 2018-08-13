@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Input.h"
 #include "MainScene.h"
+#include "Config.h"
 #pragma endregion
 
 #pragma region constructor
@@ -10,11 +11,11 @@
 GMenuPlayer::GMenuPlayer()
 {
 	// create start text
-	m_pStartText = new CText("Start Game", GGame::Get()->m_PArialFont, SRect(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 100,
+	m_pStartText = new CText("Start Game", GGame::Get()->m_PArialFont, SRect(GConfig::s_ScreenWidth / 2 - 50, GConfig::s_ScreenHeight / 2 - 100,
 		100, 50), SColor(255, 255, 255));
 
 	// create end text
-	m_pEndText = new CText("Exit Game", GGame::Get()->m_PArialFont, SRect(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 + 100,
+	m_pEndText = new CText("Exit Game", GGame::Get()->m_PArialFont, SRect(GConfig::s_ScreenWidth / 2 - 50, GConfig::s_ScreenHeight / 2 + 100,
 		100, 50), SColor(128, 128, 128));
 }
 

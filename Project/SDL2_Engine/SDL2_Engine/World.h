@@ -22,6 +22,7 @@ public:
 	/// <summary>
 	/// initialize world
 	/// </summary>
-	void Init();
+	/// <param name="_pFileName">file name</param>
+	void Init(const char* _pFileName);
 #pragma endregion
 };

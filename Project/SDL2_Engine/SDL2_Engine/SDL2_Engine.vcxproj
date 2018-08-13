@@ -175,6 +175,7 @@ xcopy "$(SolutionDir)Library\SDL2_ttf\lib\$(PlatformShortName)\*.dll" "$(Solutio
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="CContentManagement.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -197,6 +198,7 @@ xcopy "$(SolutionDir)Library\SDL2_ttf\lib\$(PlatformShortName)\*.dll" "$(Solutio
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="ContentManagement.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Enum.h" />

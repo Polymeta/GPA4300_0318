@@ -23,10 +23,14 @@ using namespace std;
 
 #pragma region public function
 // initialize world
-void GWorld::Init()
+void GWorld::Init(const char* _pFileName)
 {
+	SDL_Surface* pLevel = SDL_LoadBMP(_pFileName);
+
+	char* pPixels = (char*)(pLevel->pixels);
+
 	// string to define world
-	string world;
+	/*string world;
 
 	// add lines to world string
 	// string 100x20
@@ -56,16 +60,16 @@ void GWorld::Init()
 	world += "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 	world += "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 	world += "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
-	world += "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+	world += "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";*/
 
 	// width and height of world
-	int width = 0, height = 1;
+	int width = 0, height = 0;
 
 	// name of world texture
 	string texName = "World";
 
 	// through world string
-	for (int i = 0; i < world.length(); i++)
+	for (int i = 0; i < pLevel->w * pLevel->h; i++)
 	{
 		// name of world texture
 		texName = "World";
@@ -74,11 +78,11 @@ void GWorld::Init()
 		width++;
 
 		// if end of line increase height and reset width
-		if (world[i] == '\n')
+		if (i % pLevel->w == 0)
 		{
 			height++;
 			width = 0;
-			continue;
+			//continue;
 		}
 
 		// create textured object
@@ -114,8 +118,36 @@ void GWorld::Init()
 		// x position of texture in atlas map
 		int xPosOfTexture = 0;
 
+		// get pixel colors
+		unsigned char b = pPixels[0];
+		unsigned char g = pPixels[1];
+		unsigned char r = pPixels[2];
+
+		// 0 = black (free, background) => r=0
+		// X = dirt(outside)			=> r=64
+		// W = way (walk on)			=> r=128
+		// L = lava (death)				=> r=255
+		// S = start point of player	=> b=255
+		// E = move enemy				=> g=255 (MoveEnemy)
+		char value;
+
+		if (r == 0 && g == 0 && b == 0)
+			value = '0';
+		else if (r == 64 && g == 0 && b == 0)
+			value = 'X';
+		else if (r == 128 && g == 0 && b == 0)
+			value = 'W';
+		else if (r == 255 && g == 0 && b == 0)
+			value = 'L';
+		else if (g == 255)
+			value = 'E';
+		else if (b == 255)
+			value = 'S';
+
+		pPixels += 3;
+
 		// switch char in world string
-		switch (world[i])
+		switch (value)
 		{
 		// if dirt set position of texture in atlas map
 		case 'X':
@@ -272,5 +304,7 @@ void GWorld::Init()
 		if (dynamic_cast<CMoveObject*>(pObj))
 			((CMoveObject*)pObj)->CheckCollisionObjects();
 	}
+
+	SaveStringToFile("Hello World", "Save.txt");
 }
 #pragma endregion

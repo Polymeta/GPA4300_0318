@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "ContentManagement.h"
 #include "Physic.h"
+#include "Config.h"
 #pragma endregion
 
 #pragma region public override function
@@ -14,8 +15,8 @@ void CMoveObject::Update(float _deltaTime)
 	SVector2 camera = CEngine::Get()->GetRenderer()->GetCamera();
 
 	// if object outer range of camera return
-	if (m_position.X <= camera.X - SCREEN_WIDTH || m_position.X >= camera.X + SCREEN_WIDTH &&
-		m_position.Y <= camera.Y - SCREEN_HEIGHT || m_position.Y >= camera.Y + SCREEN_HEIGHT)
+	if (m_position.X <= camera.X - GConfig::s_ScreenWidth || m_position.X >= camera.X + GConfig::s_ScreenWidth &&
+		m_position.Y <= camera.Y - GConfig::s_ScreenHeight || m_position.Y >= camera.Y + GConfig::s_ScreenHeight)
 		return;
 
 	// moveable default true

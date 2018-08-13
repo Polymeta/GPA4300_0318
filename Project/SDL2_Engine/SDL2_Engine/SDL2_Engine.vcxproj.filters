@@ -56,6 +56,9 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Game\Config</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -132,6 +135,9 @@
     </Filter>
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{fc154721-bb0f-45e1-b741-3a8b433a059b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Config">
+      <UniqueIdentifier>{57ed42c3-d106-4e6e-8631-459f250908a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Game\Config</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
