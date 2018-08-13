@@ -14,6 +14,7 @@
 #include "Scene.h"
 #include "Input.h"
 #include "Time.h"
+#include "Config.h"
 #pragma endregion
 
 #pragma region constructor
@@ -47,8 +48,8 @@ bool CEngine::Init()
 			"Natural Engine",			// name of window
 			SDL_WINDOWPOS_CENTERED,		// position x of screen
 			SDL_WINDOWPOS_CENTERED,		// position y of screen
-			SCREEN_WIDTH,				// width
-			SCREEN_HEIGHT,				// height
+			GConfig::s_ScreenWidth,		// width
+			GConfig::s_ScreenHeight,	// height
 			SDL_WINDOW_SHOWN);			// flags
 
 		// if window not created

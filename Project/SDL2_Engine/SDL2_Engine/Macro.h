@@ -1,8 +1,8 @@
 #pragma once
 
 #pragma region value macro
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
+//#define SCREEN_WIDTH 1280
+//#define SCREEN_HEIGHT 720
 #define LAYER_COUNT 10
 #define PLAYER_SPEED 500.0f
 #define PLAYER_JUMP_FORCE 500.0f

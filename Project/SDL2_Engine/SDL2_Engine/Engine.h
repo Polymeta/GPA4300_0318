@@ -155,7 +155,7 @@ private:
 	/// time
 	/// </summary>
 	CTime* m_pTime;
-#pragma enregion
+#pragma endregion
 
 #pragma region private function
 	/// <summary>
