@@ -1,6 +1,7 @@
 #pragma region project include
 #include "ContentManagement.h"
-#include "Object.h"
+#include "MoveObject.h"
+#include "Macro.h"
 #pragma endregion
 
 #pragma region constructor
@@ -52,8 +53,34 @@ void CContentManagement::Update(float _deltaTime)
 		// remove pointer from ui list
 		m_pUIObjects.remove(pObj);
 
+		// remove pointer from move list
+		if((CMoveObject*)pObj)
+			m_pMoveObjects.remove((CMoveObject*)pObj);
+
 		// delete first object in list
 		m_pRemoveObjects.pop_front();
+	}
+
+	// decrease collision check timer
+	m_collisionTimer -= _deltaTime;
+
+	// if collision timer under 0
+	if (m_collisionTimer <= 0.0f && m_pMoveObjects.size() > 0)
+	{
+		// check collision of first move object
+		m_pMoveObjects.front()->CheckCollisionObjects();
+
+		// save reference of first move object
+		CMoveObject* pObj = m_pMoveObjects.front();
+
+		// remove object from list
+		m_pMoveObjects.remove(pObj);
+
+		// add object at end of list
+		m_pMoveObjects.push_back(pObj);
+
+		// reset
+		m_collisionTimer = COLLISION_CHECK_TIMER / m_pMoveObjects.size();
 	}
 }
 
@@ -80,11 +107,47 @@ void CContentManagement::RemoveObject(CObject * _pObj)
 	m_pRemoveObjects.push_front(_pObj);
 }
 
-void CContentManagement::SortList(list<CObject*>& _pList)
+void CContentManagement::CleanScene()
 {
-
+	for (CObject* pObj : m_pSceneObjects)
+		RemoveObject(pObj);
 }
 
+void CContentManagement::CleanUI()
+{
+	for (CObject* pObj : m_pUIObjects)
+		RemoveObject(pObj);
+}
+
+void CContentManagement::CleanPersistantObjects()
+{
+	for (CObject* pObj : m_pPersistantObjects)
+		RemoveObject(pObj);
+}
+
+void CContentManagement::SortList(list<CObject*>& _pList)
+{
+	// new sorted list
+	list<CObject*> newList;
+
+	// go through layer count
+	for (int i = 0; i < LAYER_COUNT; i++)
+	{
+		// through all objects in list
+		for (CObject* pObj : _pList)
+		{
+			// if object has same layer as index
+			if (pObj->GetLayer() == i)
+			{
+				// add object to new list
+				newList.push_back(pObj);
+			}
+		}
+	}
+
+	// set old list to sorted list
+	_pList = newList;
+}
 #pragma endregion
 
 #pragma region private function
@@ -93,6 +156,10 @@ void CContentManagement::AddObject(CObject * _pObj, list<CObject*>& _pList)
 {
 	// add object to list
 	_pList.push_front(_pObj);
+
+	// if object is a moveable object add to list
+	if (dynamic_cast<CMoveObject*>(_pObj))
+		m_pMoveObjects.push_front((CMoveObject*)_pObj);
 
 	// sort list
 	SortList(_pList);

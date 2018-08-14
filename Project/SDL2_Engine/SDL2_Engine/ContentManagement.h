@@ -7,6 +7,7 @@
 #pragma region forward decleration
 class CRenderer;
 class CObject;
+class CMoveObject;
 #pragma endregion
 
 #pragma region using
@@ -89,6 +90,21 @@ public:
 	void RemoveObject(CObject* _pObj);
 
 	/// <summary>
+	/// clean all scene objects
+	/// </summary>
+	void CleanScene();
+
+	/// <summary>
+	/// clean all ui objects
+	/// </summary>
+	void CleanUI();
+
+	/// <summary>
+	/// clean all persistant objects
+	/// </summary>
+	void CleanPersistantObjects();
+
+	/// <summary>
 	/// sort list for layering
 	/// </summary>
 	/// <param name="_pList">list to sort</param>
@@ -116,6 +132,11 @@ private:
 	/// objects to remove
 	/// </summary>
 	list<CObject*> m_pRemoveObjects;
+
+	/// <summary>
+	/// list of all moveable objects
+	/// </summary>
+	list<CMoveObject*> m_pMoveObjects;
 #pragma endregion
 
 #pragma region private function
@@ -125,5 +146,12 @@ private:
 	/// <param name="_pObj">object</param>
 	/// <param name="_pList">list to add to</param>
 	void AddObject(CObject* _pObj, list<CObject*> &_pList);
+#pragma endregion
+
+#pragma region private primitive variable
+	/// <summary>
+	/// time to check collision for move objects
+	/// </summary>
+	float m_collisionTimer;
 #pragma endregion
 };

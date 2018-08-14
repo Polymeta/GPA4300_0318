@@ -1,14 +1,24 @@
 #pragma region project include
 #include "MoveObject.h"
 #include "Engine.h"
+#include "Renderer.h"
 #include "ContentManagement.h"
 #include "Physic.h"
+#include "Config.h"
 #pragma endregion
 
 #pragma region public override function
 // update every frame
 void CMoveObject::Update(float _deltaTime)
 {
+	// save camera position
+	SVector2 camera = CEngine::Get()->GetRenderer()->GetCamera();
+
+	// if object outer range of camera return
+	if (m_position.X <= camera.X - GConfig::s_ScreenWidth || m_position.X >= camera.X + GConfig::s_ScreenWidth &&
+		m_position.Y <= camera.Y - GConfig::s_ScreenHeight || m_position.Y >= camera.Y + GConfig::s_ScreenHeight)
+		return;
+
 	// moveable default true
 	bool moveable = true;
 
@@ -20,8 +30,21 @@ void CMoveObject::Update(float _deltaTime)
 	nextRect.x = nextPos.X;
 	nextRect.y = nextPos.Y;
 
-	// through all scene objects
-	for (CObject* pObj : CEngine::Get()->GetCM()->GetSceneObjects())
+	// if no collision type
+	if (m_colType == ECollisionType::NONE)
+	{
+		// add position by movement * speed
+		m_position = nextPos;
+
+		// set position of rect
+		m_rect.x = m_position.X;
+		m_rect.y = m_position.Y;
+
+		return;
+	}
+
+	// through all collision objects
+	for (CObject* pObj : m_pCollisionObjects)
 	{
 		// if current object is self continue
 		if ((CMoveObject*)pObj && pObj == this)
@@ -34,6 +57,10 @@ void CMoveObject::Update(float _deltaTime)
 		// set moveable by checking collision
 		moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
 
+		// if collision set collide object
+		if (!moveable)
+			m_pCollideObject = pObj;
+
 		// if not moveable cancel collision check
 		if (!moveable)
 			break;
@@ -42,29 +69,9 @@ void CMoveObject::Update(float _deltaTime)
 	// if moveable
 	if (moveable)
 	{
-		// through all persistant objects
-		for (CObject* pObj : CEngine::Get()->GetCM()->GetPersistantObjects())
-		{
-			// if current object is self continue
-			if ((CMoveObject*)pObj && pObj == this)
-				continue;
+		// reset collide object
+		m_pCollideObject = nullptr;
 
-			// if collision type none
-			if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
-				continue;
-
-			// set moveable by checking collision
-			moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
-
-			// if not moveable cancel collision check
-			if (!moveable)
-				break;
-		}
-	}
-
-	// if moveable
-	if (moveable)
-	{
 		// add position by movement * speed
 		m_position = nextPos;
 
@@ -72,7 +79,7 @@ void CMoveObject::Update(float _deltaTime)
 		m_rect.x = m_position.X;
 		m_rect.y = m_position.Y;
 	}
-	
+
 	// if no gravity return
 	if (!m_gravity)
 		return;
@@ -86,8 +93,8 @@ void CMoveObject::Update(float _deltaTime)
 	// set y value
 	nextRect.y += GRAVITY_VALUE * m_fallTime * m_fallTime + 1;
 
-	// through all scene objects
-	for (CObject* pObj : CEngine::Get()->GetCM()->GetSceneObjects())
+	// through all collision objects
+	for (CObject* pObj : m_pCollisionObjects)
 	{
 		// if current object is self continue
 		if ((CMoveObject*)pObj && pObj == this)
@@ -103,29 +110,6 @@ void CMoveObject::Update(float _deltaTime)
 		// if not moveable cancel collision check
 		if (!moveable)
 			break;
-	}
-
-	// if moveable
-	if (moveable)
-	{
-		// through all persistant objects
-		for (CObject* pObj : CEngine::Get()->GetCM()->GetPersistantObjects())
-		{
-			// if current object is self continue
-			if ((CMoveObject*)pObj && pObj == this)
-				continue;
-
-			// if collision type none
-			if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
-				continue;
-
-			// set moveable by checking collision
-			moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
-
-			// if not moveable cancel collision check
-			if (!moveable)
-				break;
-		}
 	}
 
 	// if still moveable set y position
@@ -149,5 +133,58 @@ void CMoveObject::Update(float _deltaTime)
 void CMoveObject::Render(CRenderer * _pRenderer)
 {
 	CTexturedObject::Render(_pRenderer);
+}
+#pragma endregion
+
+#pragma region public function
+// check objects in distance for collision list
+void CMoveObject::CheckCollisionObjects()
+{
+	// clear list
+	m_pCollisionObjects.clear();
+
+	// through all scene object
+	for (CObject* pObj : CEngine::Get()->GetCM()->GetSceneObjects())
+	{
+		// if current object is a textured object and not self
+		if ((CTexturedObject*)pObj && pObj != this)
+		{
+			// if collision type is none continue
+			if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
+				continue;
+
+			// if distance to object is lower than collision distance
+			if (pObj->GetPosition().X >= m_position.X - COLLISION_DISTANCE &&
+				pObj->GetPosition().X <= m_position.X + COLLISION_DISTANCE &&
+				pObj->GetPosition().Y >= m_position.Y - COLLISION_DISTANCE &&
+				pObj->GetPosition().Y <= m_position.Y + COLLISION_DISTANCE)
+			{
+				// add object to collision list
+				m_pCollisionObjects.push_front(pObj);
+			}
+		}
+	}
+
+	// through all persistant object
+	for (CObject* pObj : CEngine::Get()->GetCM()->GetPersistantObjects())
+	{
+		// if current object is a textured object and not self
+		if ((CTexturedObject*)pObj && pObj != this)
+		{
+			// if collision type is none continue
+			if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
+				continue;
+
+			// if distance to object is lower than collision distance
+			if (pObj->GetPosition().X >= m_position.X - COLLISION_DISTANCE &&
+				pObj->GetPosition().X <= m_position.X + COLLISION_DISTANCE &&
+				pObj->GetPosition().Y >= m_position.Y - COLLISION_DISTANCE &&
+				pObj->GetPosition().Y <= m_position.Y + COLLISION_DISTANCE)
+			{
+				// add object to collision list
+				m_pCollisionObjects.push_front(pObj);
+			}
+		}
+	}
 }
 #pragma endregion

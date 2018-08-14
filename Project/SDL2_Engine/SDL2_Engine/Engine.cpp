@@ -1,16 +1,20 @@
 #pragma region system include
 #include <iostream>
 #include <SDL.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #pragma endregion
 
 #pragma region project include
 #include "Engine.h"
 #include "Renderer.h"
 #include "ContentManagement.h"
+#include "TextureManagement.h"
 #include "Game.h"
 #include "Scene.h"
 #include "Input.h"
 #include "Time.h"
+#include "Config.h"
 #pragma endregion
 
 #pragma region constructor
@@ -44,8 +48,8 @@ bool CEngine::Init()
 			"Natural Engine",			// name of window
 			SDL_WINDOWPOS_CENTERED,		// position x of screen
 			SDL_WINDOWPOS_CENTERED,		// position y of screen
-			SCREEN_WIDTH,				// width
-			SCREEN_HEIGHT,				// height
+			GConfig::s_ScreenWidth,		// width
+			GConfig::s_ScreenHeight,	// height
 			SDL_WINDOW_SHOWN);			// flags
 
 		// if window not created
@@ -81,6 +85,24 @@ bool CEngine::Init()
 			return false;
 		}
 
+		// initialize font
+		if (TTF_Init() < 0)
+		{
+			// error message
+			LOG_ERROR("Fonts could not be created!", SDL_GetError());
+
+			return false;
+		}
+
+		// initialize audio
+		if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
+		{
+			// error message
+			LOG_ERROR("Audio could not be created!", SDL_GetError());
+
+			return false;
+		}
+
 		// create content management system
 		m_pCM = new CContentManagement();
 
@@ -88,7 +110,19 @@ bool CEngine::Init()
 		if (!m_pCM)
 		{
 			// error message
-			LOG_ERROR("Content Management System could not be created!", SDL_GetError());
+			LOG_ERROR("Content Management System could not be created!", "");
+
+			return false;
+		}
+
+		// create texture management system
+		m_pTM = new CTextureManagement();
+
+		// if texture management system not created
+		if (!m_pTM)
+		{
+			// error message
+			LOG_ERROR("Texture Management System could not be created!", "");
 
 			return false;
 		}
@@ -100,7 +134,7 @@ bool CEngine::Init()
 		if (!m_pTime)
 		{
 			// error message
-			LOG_ERROR("Time could not be created!", SDL_GetError());
+			LOG_ERROR("Time could not be created!", "");
 
 			return false;
 		}
@@ -143,8 +177,17 @@ void CEngine::Clean()
 	// delete scene
 	delete m_pScene;
 
+	// delete game
+	delete GGame::Get();
+
 	// delete time
 	delete m_pTime;
+
+	// delete content management
+	delete m_pCM;
+
+	// delete texture management
+	delete m_pTM;
 
 	// delete renderer
 	delete m_pRenderer;

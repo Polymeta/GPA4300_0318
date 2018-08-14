@@ -1,6 +1,15 @@
 #pragma once
+
+#pragma region system include
+#include <list>
+#pragma endregion
+
 #pragma region project include
 #include "TexturedObject.h"  
+#pragma endregion
+
+#pragma region using
+using namespace std;
 #pragma endregion
 
 /// <summary>
@@ -89,6 +98,13 @@ public:
 	inline void DeactivateGravity() { m_gravity = false; }
 #pragma endregion
 
+#pragma region public function
+	/// <summary>
+	/// check objects in distance for collision list
+	/// </summary>
+	void CheckCollisionObjects();
+#pragma endregion
+
 protected:
 #pragma region protected primitive variable
 	/// <summary>
@@ -115,5 +131,22 @@ protected:
 	/// direction
 	/// </summary>
 	SVector2 m_movement;
+
+	/// <summary>
+	/// forward direction
+	/// </summary>
+	SVector2 m_forward = SVector2(-1.0f, 0.0f);
+#pragma endregion
+
+#pragma region protected variable
+	/// <summary>
+	/// object that collides with this object
+	/// </summary>
+	CObject* m_pCollideObject;
+
+	/// <summary>
+	/// list of objects to check collision
+	/// </summary>
+	list<CObject*> m_pCollisionObjects;
 #pragma endregion
 };
